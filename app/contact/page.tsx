@@ -1,20 +1,26 @@
 'use client'
 import { useForm, SubmitHandler } from "react-hook-form"
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type Inputs = {
-  name: string
-  email: string
-  numero: number
-  message: string
-}
+const User = z
+ .object({
+    name: z.string().min(5),
+    email: z.string().email(),
+    numero: z.number().positive(),
+    message: z.string().min(5),
+ })
+ .required();
+
+type UserFormData = z.infer<typeof User>;
+
 const Contact = () => {
     const {
         register,
         handleSubmit,
-        watch,
         formState: { errors },
-      } = useForm<Inputs>()
-      const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
+      } = useForm<UserFormData>()
+      const onSubmit: SubmitHandler<UserFormData> = (data) => console.log(data)
     
       return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -25,7 +31,7 @@ const Contact = () => {
           <input {...register("email", { required: true })} />
 
           <label>Numero</label>
-          <input {...register("numero", { required: true })} />
+          <input type="number" {...register("numero", { required: true })} />
 
           <label>Message</label>
           <input {...register("message", { required: true })} />
