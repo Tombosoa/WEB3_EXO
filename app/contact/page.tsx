@@ -18,13 +18,16 @@ const Contact = () => {
     
       return (
         <form onSubmit={handleSubmit(onSubmit)}>
-
+          <label>Name</label>
           <input {...register("name", { required: true })} />
     
+          <label>Email</label>
           <input {...register("email", { required: true })} />
 
+          <label>Numero</label>
           <input {...register("numero", { required: true })} />
 
+          <label>Message</label>
           <input {...register("message", { required: true })} />
   
           {errors.email && <span>This field is required</span>}
